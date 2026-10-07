@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>物品详情 - 校园失物招领</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 顶部标题 -->
+  <header class="page-header">
+    <a href="javascript:history.back()" class="back-btn">←</a>
+    <h1>物品详情</h1>
+    <span class="header-placeholder"></span>
+  </header>
+
+  <!-- 详情内容容器（JS 动态渲染） -->
+  <div id="detailContent"></div>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span>首页</span>
+    </a>
+    <a href="publish.html" class="nav-item">
+      <span class="nav-icon">➕</span>
+      <span>发布</span>
+    </a>
+    <a href="mine.html" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/detail.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>搜索 - 校园失物招领</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 顶部标题 -->
+  <header class="page-header">
+    <a href="index.html" class="back-btn">←</a>
+    <h1>搜索</h1>
+    <span class="header-placeholder"></span>
+  </header>
+
+  <!-- 搜索输入框 -->
+  <div class="search-input-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="输入物品名称" autocomplete="off">
+  </div>
+
+  <!-- 快捷关键词 -->
+  <div class="quick-tags" id="quickTags">
+    <button class="quick-tag" data-kw="校园卡">校园卡</button>
+    <button class="quick-tag" data-kw="钥匙">钥匙</button>
+    <button class="quick-tag" data-kw="水杯">水杯</button>
+    <button class="quick-tag" data-kw="耳机">耳机</button>
+  </div>
+
+  <!-- 结果头部 -->
+  <div class="list-header">
+    <span>找到 <em id="resultCount">0</em> 条相关信息</span>
+    <span class="sort-text">按发布时间排序</span>
+  </div>
+
+  <!-- 结果列表 -->
+  <div class="card-list" id="cardList"></div>
+
+  <!-- 空状态 -->
+  <div class="empty-state" id="emptyState" style="display:none;">
+    暂时没有找到相关信息
+  </div>
+
+  <script src="js/data.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>
