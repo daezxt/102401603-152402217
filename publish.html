@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>发布信息 - 校园失物招领</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 顶部标题 -->
+  <header class="page-header">
+    <a href="index.html" class="back-btn">←</a>
+    <h1>发布信息</h1>
+    <span class="header-placeholder"></span>
+  </header>
+
+  <!-- 说明文字 -->
+  <p class="publish-tip">选择发布类型后填写信息，发布后其他同学即可看到。</p>
+
+  <!-- 发布表单 -->
+  <form class="publish-form" id="publishForm">
+
+    <!-- 发布类型 -->
+    <div class="form-group">
+      <label class="form-label">发布类型</label>
+      <div class="type-switch" id="typeSwitch">
+        <button type="button" class="type-btn active" data-type="寻物">
+          <span>🔍</span> 寻物
+        </button>
+        <button type="button" class="type-btn" data-type="招领">
+          <span>🤝</span> 招领
+        </button>
+      </div>
+      <p class="type-hint" id="typeHint">寻物：我丢失了东西，寻求帮助</p>
+    </div>
+
+    <!-- 物品名称 -->
+    <div class="form-group">
+      <label class="form-label">物品名称</label>
+      <input type="text" class="form-input" id="itemTitle" placeholder="例如：校园卡（2023 级）">
+    </div>
+
+    <!-- 时间 -->
+    <div class="form-group">
+      <label class="form-label">时间</label>
+      <input type="text" class="form-input" id="itemTime" placeholder="例如：今天 08:20">
+    </div>
+
+    <!-- 地点 -->
+    <div class="form-group">
+      <label class="form-label">地点</label>
+      <input type="text" class="form-input" id="itemLocation" placeholder="例如：三号食堂二楼">
+    </div>
+
+    <!-- 物品描述 -->
+    <div class="form-group">
+      <label class="form-label">物品描述</label>
+      <textarea class="form-textarea" id="itemDesc" rows="4" placeholder="详细描述物品特征，方便失主/拾主辨认"></textarea>
+    </div>
+
+    <!-- 联系方式 -->
+    <div class="form-group">
+      <label class="form-label">联系方式</label>
+      <input type="text" class="form-input" id="itemContact" placeholder="例如：QQ: 123456 或 微信: xxx">
+    </div>
+        <!-- 联系方式公开方式 -->
+    <div class="form-group">
+      <label class="form-label">联系方式公开方式</label>
+      <div class="contact-mode">
+        <label class="mode-option">
+          <input type="radio" name="contactMode" value="public" checked>
+          <span>公开联系方式（所有人都能看到）</span>
+        </label>
+        <label class="mode-option">
+          <input type="radio" name="contactMode" value="private">
+          <span>仅站内联系（不公开具体联系方式）</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 发布按钮 -->
+    <button type="submit" class="submit-btn">发布</button>
+  </form>
+
+  <!-- 底部导航 -->
+  <nav class="bottom-nav">
+    <a href="index.html" class="nav-item">
+      <span class="nav-icon">🏠</span>
+      <span>首页</span>
+    </a>
+    <a href="publish.html" class="nav-item active">
+      <span class="nav-icon">➕</span>
+      <span>发布</span>
+    </a>
+    <a href="mine.html" class="nav-item">
+      <span class="nav-icon">👤</span>
+      <span>我的</span>
+    </a>
+  </nav>
+
+  <!-- 提示 toast -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/publish.js"></script>
+</body>
+</html>
