@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:,">
+  <title>单元测试 - 校园失物招领</title>
+  <style>
+    body {
+      font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 24px 16px 60px;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    h1 { font-size: 20px; margin-bottom: 12px; }
+    #summary {
+      padding: 14px 16px;
+      border-radius: 10px;
+      font-size: 15px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+    #summary.pass { background-color: #e8f8ef; color: #157f3c; }
+    #summary.fail { background-color: #fff2e8; color: #c2410c; }
+    #summary.note { font-weight: normal; font-size: 13px; }
+    ul { list-style: none; }
+    li {
+      padding: 8px 12px;
+      border-radius: 8px;
+      margin-bottom: 6px;
+      background-color: #f5f6f8;
+      font-size: 14px;
+    }
+    li.fail { background-color: #fff2e8; color: #c2410c; }
+    li .detail { display: block; font-size: 13px; color: #b8410c; margin-top: 4px; }
+  </style>
+</head>
+<body>
+
+  <h1>校园失物招领 —— 单元测试</h1>
+  <div id="summary">运行中…</div>
+  <ul id="results"></ul>
+
+  <script>
+    // 用内存版 localStorage 替换浏览器真实存储，避免测试污染真实数据
+    window.__storageShimApplied = false;
+    (function () {
+      const store = new Map();
+      const shim = {
+        getItem: key => (store.has(key) ? store.get(key) : null),
+        setItem: (key, value) => { store.set(key, String(value)); },
+        removeItem: key => { store.delete(key); },
+        clear: () => { store.clear(); },
+        key: index => Array.from(store.keys())[index] || null
+      };
+      Object.defineProperty(shim, "length", { get: () => store.size });
+
+      try {
+        Object.defineProperty(window, "localStorage", { value: shim, configurable: true });
+        window.__storageShimApplied = true;
+      } catch (e) {
+        console.warn("无法替换 localStorage，测试会使用真实存储：", e);
+      }
+    })();
+  </script>
+  <script src="../js/data.js"></script>
+  <script src="../js/ui.js"></script>
+  <script src="tests.js"></script>
+</body>
+</html>

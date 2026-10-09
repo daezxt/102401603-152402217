@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="校园失物招领：发布和查找校园里丢失、捡到的物品。">
+  <link rel="icon" href="data:,">
   <title>校园失物招领</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,31 +17,25 @@
   </header>
 
   <!-- 搜索框（点击跳搜索页） -->
-  <div class="search-box" onclick="location.href='search.html'">
-    <span class="search-icon">🔍</span>
+  <a class="search-box" href="search.html">
+    <span class="search-icon" aria-hidden="true">🔍</span>
     <span class="search-placeholder">搜索物品名称，如校园卡、钥匙、水杯等</span>
-  </div>
+  </a>
 
   <!-- 筛选标签 -->
   <div class="filter-tabs" id="filterTabs">
-    <button class="tab active" data-type="全部">全部</button>
-    <button class="tab" data-type="寻物">寻物</button>
-    <button class="tab" data-type="招领">招领</button>
+    <button type="button" class="tab active" data-type="全部" aria-pressed="true">全部</button>
+    <button type="button" class="tab" data-type="寻物" aria-pressed="false">寻物</button>
+    <button type="button" class="tab" data-type="招领" aria-pressed="false">招领</button>
   </div>
 
-    <!-- 物品类别筛选 -->
-  <div class="category-tabs" id="categoryTabs">
-    <button class="cat-tab active" data-cat="全部">全部</button>
-    <button class="cat-tab" data-cat="card">校园卡</button>
-    <button class="cat-tab" data-cat="device">电子设备</button>
-    <button class="cat-tab" data-cat="key">钥匙</button>
-    <button class="cat-tab" data-cat="book">书籍</button>
-  </div>
+  <!-- 物品类别筛选（标签由 home.js 按 CATEGORIES 渲染） -->
+  <div class="category-tabs" id="categoryTabs"></div>
 
   <!-- 列表头部 -->
   <div class="list-header">
     <span>共 <em id="totalCount">0</em> 条信息</span>
-    <span class="sort-text">按发布时间排序</span>
+    <span class="sort-text">按发布时间，新的在前</span>
   </div>
 
   <!-- 卡片列表容器（JS 动态渲染） -->
@@ -52,22 +48,30 @@
 
   <!-- 底部导航 -->
   <nav class="bottom-nav">
-    <a href="index.html" class="nav-item active">
-      <span class="nav-icon">🏠</span>
+    <a href="index.html" class="nav-item active" aria-current="page">
+      <span class="nav-icon" aria-hidden="true">🏠</span>
       <span>首页</span>
     </a>
+    <a href="messages.html" class="nav-item">
+      <span class="nav-icon-wrap">
+        <span class="nav-icon" aria-hidden="true">💬</span>
+        <span class="nav-badge" id="navBadge" style="display:none;">0</span>
+      </span>
+      <span>私信</span>
+    </a>
     <a href="publish.html" class="nav-item">
-      <span class="nav-icon">➕</span>
+      <span class="nav-icon" aria-hidden="true">➕</span>
       <span>发布</span>
     </a>
     <a href="mine.html" class="nav-item">
-      <span class="nav-icon">👤</span>
+      <span class="nav-icon" aria-hidden="true">👤</span>
       <span>我的</span>
     </a>
   </nav>
 
   <!-- 引入脚本 -->
   <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/home.js"></script>
 </body>
 </html>

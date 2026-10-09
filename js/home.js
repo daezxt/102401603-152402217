@@ -1,6 +1,6 @@
 /**
  * home.js
- * 首页逻辑：渲染卡片列表、处理筛选、更新统计
+ * 首页逻辑：渲染卡片列表、类型/类别筛选、今日新增统计
  */
 
 // 当前选中的筛选类型
@@ -10,100 +10,98 @@ let currentType = "全部";
 let currentCategory = "全部";
 
 /**
+ * 渲染类别筛选标签（类别定义来自 data.js，避免两处维护）
+ */
+function renderCategoryTabs() {
+  const container = document.getElementById("categoryTabs");
+  const all = [{ id: "全部", label: "全部" }].concat(CATEGORIES);
+
+  container.innerHTML = all.map(category => `
+    <button type="button" class="cat-tab ${category.id === currentCategory ? "active" : ""}"
+            data-cat="${escapeHtml(category.id)}"
+            aria-pressed="${category.id === currentCategory}">
+      ${escapeHtml(category.label)}
+    </button>
+  `).join("");
+}
+
+/**
  * 渲染卡片列表
  */
 function renderCards() {
   const listEl = document.getElementById("cardList");
   const emptyEl = document.getElementById("emptyState");
+  const items = queryItems({ type: currentType, category: currentCategory });
 
-  // 先按类型筛选，再按类别筛选
-  let items = filterByType(currentType);
-  if (currentCategory !== "全部") {
-    items = items.filter(item => item.category === currentCategory);
-  }
-
-  // 更新统计数字
   document.getElementById("totalCount").textContent = items.length;
-
-  if (items.length === 0) {
-    listEl.innerHTML = "";
-    emptyEl.style.display = "block";
-    return;
-  }
-  emptyEl.style.display = "none";
-
-  // 生成卡片 HTML
-  listEl.innerHTML = items.map(item => {
-    const statusClass = getStatusClass(item.status);
-    return `
-      <div class="card" onclick="location.href='detail.html?id=${item.id}'">
-        <div class="card-icon">${getIconEmoji(item.icon)}</div>
-        <div class="card-main">
-          <div class="card-title-row">
-            <span class="card-title">${item.title}</span>
-            <span class="status-tag ${statusClass}">${item.status}</span>
-          </div>
-          <div class="card-location">📍 ${item.location}</div>
-          <div class="card-time">🕐 ${item.time}</div>
-        </div>
-        <div class="card-type ${item.type === '寻物' ? 'type-lost' : 'type-found'}">
-          ${item.type}
-        </div>
-      </div>
-    `;
-  }).join("");
+  renderItemList(listEl, emptyEl, items);
 }
 
 /**
- * 更新「今日新增」数字
- * 简单统计 publishTime 以"今天"开头的信息
+ * 更新「今日新增」：按真实发布时间统计，跨天后自动归零
  */
 function updateTodayCount() {
-  const items = getAllItems();
-  const todayItems = items.filter(item => item.publishTime.startsWith("今天"));
-  document.getElementById("todayCount").textContent = todayItems.length;
+  const count = getAllItems().filter(item => isToday(item.createdAt)).length;
+  document.getElementById("todayCount").textContent = count;
 }
 
 /**
- * 绑定筛选标签点击事件
+ * 绑定类型筛选标签
  */
 function bindFilterTabs() {
   const tabs = document.querySelectorAll("#filterTabs .tab");
+
   tabs.forEach(tab => {
     tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
+      tabs.forEach(t => {
+        t.classList.remove("active");
+        t.setAttribute("aria-pressed", "false");
+      });
       tab.classList.add("active");
+      tab.setAttribute("aria-pressed", "true");
       currentType = tab.dataset.type;
       renderCards();
     });
   });
 }
+
 /**
- * 绑定物品类别筛选
+ * 绑定类别筛选标签（事件委托，标签由 JS 渲染）
  */
 function bindCategoryTabs() {
-  const tabs = document.querySelectorAll("#categoryTabs .cat-tab");
-  tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-      tabs.forEach(t => t.classList.remove("active"));
-      tab.classList.add("active");
-      currentCategory = tab.dataset.cat;
-      renderCards();
+  const container = document.getElementById("categoryTabs");
+
+  container.addEventListener("click", event => {
+    const tab = event.target.closest(".cat-tab");
+    if (!tab) return;
+
+    container.querySelectorAll(".cat-tab").forEach(t => {
+      t.classList.remove("active");
+      t.setAttribute("aria-pressed", "false");
     });
+    tab.classList.add("active");
+    tab.setAttribute("aria-pressed", "true");
+
+    currentCategory = tab.dataset.cat;
+    renderCards();
   });
 }
-
-
 
 /**
  * 页面初始化
  */
 function initHome() {
-  updateTodayCount();
+  renderCategoryTabs();
   bindFilterTabs();
-  bindCategoryTabs();   // ← 新增
+  bindCategoryTabs();
+  updateTodayCount();
   renderCards();
+
+  // 从详情页返回（bfcache）时刷新，避免看到过期数据
+  onPageRestore(() => {
+    updateTodayCount();
+    renderCards();
+  });
 }
 
-// 页面加载完成后执行
 document.addEventListener("DOMContentLoaded", initHome);

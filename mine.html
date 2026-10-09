@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="我发布的校园失物招领信息。">
+  <link rel="icon" href="data:,">
   <title>我的发布 - 校园失物招领</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -15,13 +17,22 @@
     <span class="header-count">共 <em id="mineCount">0</em> 条</span>
   </header>
 
-  <!-- 用户卡片 -->
+  <!-- 用户卡片（昵称与院系由 mine.js 用当前身份填充） -->
   <div class="user-card">
-    <div class="user-avatar">👤</div>
+    <div class="user-avatar" aria-hidden="true">👤</div>
     <div class="user-info">
-      <div class="user-name">李同学 · 计算机学院</div>
-      <div class="user-sub">发布于校园失物招领平台</div>
+      <div class="user-name" id="userName">李同学</div>
+      <div class="user-sub" id="userSub">计算机学院</div>
     </div>
+  </div>
+
+  <!-- 演示身份切换：本地没有后端，切换身份才能体验私信的双向收发 -->
+  <div class="switch-card">
+    <label class="form-label" for="userSwitch">
+      演示身份
+      <span class="char-count">切换后可看到对方收到的信息与私信</span>
+    </label>
+    <select class="form-select" id="userSwitch"></select>
   </div>
 
   <!-- 数据统计 -->
@@ -41,7 +52,7 @@
   </div>
 
   <!-- 说明 -->
-  <p class="mine-tip">我发布的信息，可随时修改状态</p>
+  <p class="mine-tip">我发布的信息，可随时修改状态、编辑或删除</p>
 
   <!-- 列表 -->
   <div class="mine-list" id="mineList"></div>
@@ -54,31 +65,36 @@
   <!-- 底部导航 -->
   <nav class="bottom-nav">
     <a href="index.html" class="nav-item">
-      <span class="nav-icon">🏠</span>
+      <span class="nav-icon" aria-hidden="true">🏠</span>
       <span>首页</span>
     </a>
+    <a href="messages.html" class="nav-item">
+      <span class="nav-icon-wrap">
+        <span class="nav-icon" aria-hidden="true">💬</span>
+        <span class="nav-badge" id="navBadge" style="display:none;">0</span>
+      </span>
+      <span>私信</span>
+    </a>
     <a href="publish.html" class="nav-item">
-      <span class="nav-icon">➕</span>
+      <span class="nav-icon" aria-hidden="true">➕</span>
       <span>发布</span>
     </a>
-    <a href="mine.html" class="nav-item active">
-      <span class="nav-icon">👤</span>
+    <a href="mine.html" class="nav-item active" aria-current="page">
+      <span class="nav-icon" aria-hidden="true">👤</span>
       <span>我的</span>
     </a>
   </nav>
 
-  <!-- 修改状态面板 -->
-  <div class="sheet-mask" id="sheetMask" onclick="closeSheet()"></div>
-  <div class="sheet" id="sheet">
-    <h3>修改状态</h3>
+  <!-- 底部面板（修改状态 / 联系申请共用） -->
+  <div class="sheet-mask" id="sheetMask"></div>
+  <div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <h3 id="sheetTitle">修改状态</h3>
     <div class="sheet-options" id="sheetOptions"></div>
-    <button class="sheet-cancel" onclick="closeSheet()">取消</button>
+    <button type="button" class="sheet-cancel" id="sheetCancel">取消</button>
   </div>
 
-  <!-- Toast -->
-  <div class="toast" id="toast"></div>
-
   <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/mine.js"></script>
 </body>
 </html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="校园失物招领的私信会话。">
+  <link rel="icon" href="data:,">
+  <title>私信 - 校园失物招领</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="chat-page">
+
+  <!-- 顶部标题 -->
+  <header class="page-header">
+    <a href="messages.html" class="back-btn" id="backBtn" aria-label="返回私信列表">←</a>
+    <div class="chat-title-wrap">
+      <h1 id="chatTitle">私信</h1>
+      <a class="chat-sub" id="chatItem" href="index.html">—</a>
+    </div>
+    <span class="header-placeholder"></span>
+  </header>
+
+  <!-- 消息列表（JS 渲染） -->
+  <div class="message-list" id="messageList"></div>
+
+  <!-- 空状态 -->
+  <div class="empty-state" id="emptyState" style="display:none;">
+    会话不存在或已被清理
+  </div>
+
+  <!-- 输入栏 -->
+  <form class="message-bar" id="messageForm">
+    <label class="sr-only" for="messageInput">输入私信内容</label>
+    <input type="text" id="messageInput" maxlength="200" placeholder="说点什么…" autocomplete="off">
+    <button type="submit" class="send-btn" id="sendBtn">发送</button>
+  </form>
+
+  <script src="js/data.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/chat.js"></script>
+</body>
+</html>

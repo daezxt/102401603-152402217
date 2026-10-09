@@ -3,52 +3,36 @@
  * 搜索页逻辑：关键词搜索、快捷标签、空状态
  */
 
+// 输入防抖定时器
+let searchTimer = null;
+
 /**
  * 渲染搜索结果
  */
 function renderSearchResults(keyword) {
   const listEl = document.getElementById("cardList");
   const emptyEl = document.getElementById("emptyState");
-  const countEl = document.getElementById("resultCount");
+  const items = queryItems({ keyword });
 
-  const items = searchItems(keyword);
-  countEl.textContent = items.length;
+  document.getElementById("resultCount").textContent = items.length;
 
-  if (items.length === 0) {
-    listEl.innerHTML = "";
-    emptyEl.style.display = "block";
-    return;
-  }
-  emptyEl.style.display = "none";
+  const text = String(keyword == null ? "" : keyword).trim();
+  emptyEl.textContent = text
+    ? `没有找到和「${text}」相关的信息，换个关键词试试`
+    : "暂时还没有任何信息";
 
-  listEl.innerHTML = items.map(item => {
-    const statusClass = getStatusClass(item.status);
-    return `
-      <div class="card" onclick="location.href='detail.html?id=${item.id}'">
-        <div class="card-icon">${getIconEmoji(item.icon)}</div>
-        <div class="card-main">
-          <div class="card-title-row">
-            <span class="card-title">${item.title}</span>
-            <span class="status-tag ${statusClass}">${item.status}</span>
-          </div>
-          <div class="card-location">📍 ${item.location}</div>
-          <div class="card-time">🕐 ${item.time}</div>
-        </div>
-        <div class="card-type ${item.type === '寻物' ? 'type-lost' : 'type-found'}">
-          ${item.type}
-        </div>
-      </div>
-    `;
-  }).join("");
+  renderItemList(listEl, emptyEl, items);
 }
 
 /**
- * 绑定搜索输入框
+ * 绑定搜索输入框（输入防抖，避免每敲一个字就重排列表）
  */
 function bindSearchInput() {
   const input = document.getElementById("searchInput");
+
   input.addEventListener("input", () => {
-    renderSearchResults(input.value);
+    clearTimeout(searchTimer);
+    searchTimer = setTimeout(() => renderSearchResults(input.value), 150);
   });
 }
 
@@ -56,13 +40,15 @@ function bindSearchInput() {
  * 绑定快捷标签
  */
 function bindQuickTags() {
-  const tags = document.querySelectorAll("#quickTags .quick-tag");
-  const input = document.getElementById("searchInput");
-  tags.forEach(tag => {
-    tag.addEventListener("click", () => {
-      input.value = tag.dataset.kw;
-      renderSearchResults(tag.dataset.kw);
-    });
+  const container = document.getElementById("quickTags");
+
+  container.addEventListener("click", event => {
+    const tag = event.target.closest(".quick-tag");
+    if (!tag) return;
+
+    const input = document.getElementById("searchInput");
+    input.value = tag.dataset.kw;
+    renderSearchResults(tag.dataset.kw);
   });
 }
 
@@ -73,6 +59,9 @@ function initSearch() {
   bindSearchInput();
   bindQuickTags();
   renderSearchResults(""); // 初始显示全部
+  document.getElementById("searchInput").focus();
+
+  onPageRestore(() => renderSearchResults(document.getElementById("searchInput").value));
 }
 
 document.addEventListener("DOMContentLoaded", initSearch);
