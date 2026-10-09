@@ -15,18 +15,30 @@
 **浏览与查找**
 
 - 首页按类型（寻物 / 招领）和类别（校园卡、电子设备、钥匙、书籍、雨伞、水杯、其他）筛选，按发布时间从新到旧排列
+  <img width="212" height="476" alt="image" src="https://github.com/user-attachments/assets/29118d88-c425-44a6-882c-fd97b0dac897" />
+
 - 搜索支持名称、描述、地点，带同义词：「水杯」也能搜到「保温杯」，「校园卡」也能搜到「一卡通」；中文关键词还支持逐字命中
+<img width="214" height="477" alt="image" src="https://github.com/user-attachments/assets/4e216669-e043-48a9-b851-7b4d12f33904" />
 
 **发布与管理**
 
 - 发布时选类型和类别，填名称、时间、地点、描述、联系方式，带字数上限与实时字数提示
+<img width="211" height="476" alt="image" src="https://github.com/user-attachments/assets/ddb476a2-7d23-46d1-b852-1c214c488b52" />
+
 - 「我的发布」可以看到统计、修改状态（寻物→已找到 / 招领→已归还）、编辑、删除
+<img width="212" height="478" alt="image" src="https://github.com/user-attachments/assets/2698307f-9306-4ee3-b368-053d0a1fc1de" />
+
 - 状态与类型是绑定的，不会出现「招领 + 已找到」这类非法组合
 
 **联系方式与私信**
 
 - 联系方式可选「公开」或「仅站内联系」；选后者时其他人只能看到一把锁，需要私信沟通或发申请、由你同意后才可见
+<img width="192" height="479" alt="image" src="https://github.com/user-attachments/assets/eea133fc-71e4-40fe-9d11-56cf4e6bbef9" />
+
 - 私信：会话按「一条信息 + 两个人」唯一，底部导航带未读红点，进入会话自动已读
+<img width="213" height="476" alt="image" src="https://github.com/user-attachments/assets/c3dc2694-8014-4040-97bb-8fd9b1f3f034" />
+<img width="212" height="476" alt="image" src="https://github.com/user-attachments/assets/0d20df9b-8603-48f1-99e9-bcd1a2ddad1c" />
+
 - 发布者删掉信息后，聊天记录仍然保留，只在列表里标注「已删除」
 
 ## 快速开始
@@ -126,12 +138,6 @@ python -m http.server 8000
 ## 浏览器支持
 
 用到的是 `URLSearchParams`、`Element.closest`、`Promise`、模板字符串等标准特性，近几年版本的 Chrome / Edge / Firefox / Safari 都可以直接运行。
-
-## 已知简化
-
-- 没有后端，数据只存在当前浏览器的 localStorage 里，换设备看不到
-- 身份靠「我的」页手动切换来演示，真实产品里应该由登录态决定
-- 私信只支持文本，没有撤回、图片、消息推送
 
 ## 结对信息
 
